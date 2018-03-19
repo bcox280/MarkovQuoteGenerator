@@ -2,15 +2,17 @@ import sys
 
 
 def create_t():
+    """Create the transition matrix."""
     print("")
 
 
 def create_e():
+    """Create the emissions matrix."""
     print("")
 
 
-def main(args=None):
-    """The main routine."""
+def generate(args=None):
+    """Generate a quote as a sequence of words."""
     if args is None:
         args = sys.argv[1:]
 
@@ -36,4 +38,4 @@ def main(args=None):
 
 
 if __name__ == "__main__":
-    main()
+    generate()
