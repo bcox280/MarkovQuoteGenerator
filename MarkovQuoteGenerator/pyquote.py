@@ -7,6 +7,7 @@ transition = {}
 
 def add_in(s, t):
     """Add corresponding words into a dictionary of dictionaries"""
+
     if s in transition:
         inner_dict = transition[s]
         if t in inner_dict:
@@ -24,7 +25,7 @@ def create_t():
     lines = (text.split() for text in inf)
     for line in lines:
         first_word = line[0]
-        for other_word in line[:-1]:
+        for other_word in line[1:]:
             add_in(first_word, other_word)
             first_word = other_word
 
@@ -36,6 +37,7 @@ def create_e():
 
 def generate(args=None):
     """Generate a quote as a sequence of words."""
+
     if args is None:
         args = sys.argv[1:]
 
@@ -52,12 +54,6 @@ def generate(args=None):
         line_words = (line.split('\t') for line in inf)
         outQ.writelines(words[1].strip() + '\n' for words in line_words if len(words) > 1)
 
-        # Other method of populating
-
-        # for words in line_words:
-        #     if len(words) > 0:
-        #         outQ.writelines(words[1].strip() + '\n')
-        #         outA.writelines(words[0].strip() + '\n')
     create_t()
 
 
