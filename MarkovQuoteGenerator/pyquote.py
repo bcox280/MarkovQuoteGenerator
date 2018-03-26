@@ -49,7 +49,7 @@ def create_t():
         for other_word in line[1:]:
             add_in(first_word, other_word)
             first_word = other_word
-    generate_init()
+    startWord = generate_init()
 
 
 def create_e():
