@@ -1,8 +1,28 @@
 import sys
 import numpy as np
 from itertools import islice
+import random
 
 transition = {}
+prior = {}
+
+
+def generate_init():
+    """Generate the first word that'll be the 'seed' for the quote"""
+    weighted = []
+    for key in prior:
+        for value in [key] * prior[key]:
+            weighted.append(value)
+
+    return random.choice(weighted)
+
+
+def add_to_p(word):
+    """Add to initialised prior vector of all starting words"""
+    if word in prior:
+        prior[word] = prior[word] + 1
+    else:
+        prior[word] = 1
 
 
 def add_in(s, t):
@@ -25,9 +45,11 @@ def create_t():
     lines = (text.split() for text in inf)
     for line in lines:
         first_word = line[0]
+        add_to_p(first_word)
         for other_word in line[1:]:
             add_in(first_word, other_word)
             first_word = other_word
+    print(generate_init())
 
 
 def create_e():
