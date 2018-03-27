@@ -7,11 +7,16 @@ transition = {}
 prior = {}
 
 
-def generate_init():
+def generate_next(current):
+    """Generate the next word in the quote"""
+    return generate_init(transition[current])
+
+
+def generate_init(dictionary):
     """Generate the first word that'll be the 'seed' for the quote"""
     weighted = []
-    for key in prior:
-        for value in [key] * prior[key]:
+    for key in dictionary:
+        for value in [key] * dictionary[key]:
             weighted.append(value)
 
     return random.choice(weighted)
@@ -40,16 +45,26 @@ def add_in(s, t):
 
 def create_t():
     """Create the transition object."""
-
     inf = open("../SourceText/quotes.txt", "r")
     lines = (text.split() for text in inf)
+
     for line in lines:
         first_word = line[0]
         add_to_p(first_word)
         for other_word in line[1:]:
             add_in(first_word, other_word)
             first_word = other_word
-    startWord = generate_init()
+
+    quote = generate_init(prior)
+    current_word = quote
+
+    while True:
+        current_word = generate_next(current_word)
+        quote = quote + " " + current_word
+        if current_word.endswith('.'):
+            break
+
+    print(quote)
 
 
 def create_e():
